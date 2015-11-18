@@ -1,0 +1,52 @@
+<div class="panel panel-primary" ng-controller="productosCtrl">
+    <div class="panel-heading" style="font-size:large">
+        Lista de Productos
+    </div>
+
+    <form ng-submit="agregarSubmit()" ng-show="agregarFormShow">
+        <input type="text" ng-model="nombreProducto" placeholder="Nombre Producto" />
+        <input type="text" ng-model="codigoProducto" placeholder="Código del producto" />
+        <input type="text" ng-model="descripcion" placeholder="descripcion" />
+        <input type="text" ng-model="disponibles" placeholder="disponibles" />
+        <input type="text" ng-model="precio" placeholder="precio" />
+        <input type="submit" value="Agregar Producto" class="btn btn-default btn-success" />
+    </form>
+
+    <form ng-submit="editFormSubmit()" ng-show="editFormShow">
+        <input type="text" ng-model="nombreProducto" placeholder="Nombre Producto" />
+        <input type="text" ng-model="codigoProducto" placeholder="Código del producto" />
+        <input type="text" ng-model="descripcion" placeholder="descripcion" />
+        <input type="text" ng-model="disponibles" placeholder="disponibles" />
+        <input type="text" ng-model="precio" placeholder="precio" />
+        <input type="submit" value="Editar Producto" class="btn btn-default btn-warning" />
+    </form>
+    <div class="panel panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Producto</td>
+                    <td>Código del producto</td>
+                    <td>Descripción</td>
+                    <td>Disponibles</td>
+                    <td>Precio</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="producto in productos">
+                    <td>{{ producto.nombreProducto}}</td>
+                    <td>{{ producto.codigoProducto}}</td>
+                    <td>{{ producto.descripcion}}</td>
+                    <td>{{ producto.disponibles}}</td>
+                    <td>{{ producto.precio | currency }}</td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="verProducto(producto)" >Editar</button>&nbsp;
+                        <button class="btn btn-danger" ng-click="eliminarProducto(producto)" >Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-success" ng-click="verForm()" ng-hide="agregarFormShow">+</button>
+        <button class="btn btn-warning" ng-click="ocultarForm()" ng-show="agregarFormShow">-</button>
+    </div>
+</div>

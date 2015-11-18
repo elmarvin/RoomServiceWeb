@@ -1,0 +1,28 @@
+{
+	"products": {
+        "-JWT5y43YFy1mGirVVS2": {
+            "productName": "Leaf Rake",
+            "productCode": "GDN0011",
+            "description": "Leaf rake with 48-inch wooden handle.",
+            "price": 19.95
+        },
+        "-JWT65QvjwD4TSFjDx4V": {
+            "productName": "Garden Cart",
+            "productCode": "GDN0023",
+            "description": "15 gallon capacity rolling garden cart",
+            "price": 32.99
+        },
+        "-JWk3R8ejXlaOVBr7hxd": {
+            "productName": "Hammer",
+            "productCode": "TBX0048",
+            "description": "Curved claw steel hammer",
+            "price": 8.99
+        },
+        "-JX0jlHRCfiI6DiDnySn": {
+            "productName": "Saw",
+            "productCode": "TBX0022",
+            "description": "15-inch steel blade hand saw",
+            "price": 11.55
+        }
+    }
+}
