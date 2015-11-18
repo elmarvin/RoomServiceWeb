@@ -2,14 +2,13 @@
 // CREACION DEL MODULO
 var myApp = angular.module('myApp', ['firebase', 'ngRoute']);
 
-// CERACION DEL CONTROLADOR PARA VIEWS
+// CONFIGURACIÓN DE LAS RUTAS PARA REDIRIGIR A LAS VISTAS
 myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider) {
     $routeProvider.
     when('/home', {
-      templateUrl: 'templates/clientes.html', 
+      templateUrl: 'templates/home.html', 
       controller: 'homeCtrl'
    }).
-   
    when('/clientes', {
       templateUrl: 'templates/clientes.html', 
       controller: 'clientesCtrl'
@@ -32,9 +31,22 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
     
 }]);
 
-
-myApp.controller('homeCtrl',['$scope',function($scope) {
-    $scope.message = 'Hola, Mundo!';
+// CONTROLADOR PARA LA VISTA HOME
+myApp.controller('homeCtrl',['$scope', '$location',function($scope, $location) {
+    
+    // FUNCIONES PARA REDIRIGIR A LAS VISTAS DESDE LOS BOTONES DEL MENU HOME
+    $scope.toClientes = function(){
+        $location.url("/clientes");
+    }
+    $scope.toProductos = function(){
+        $location.url("/productos");
+    }
+    $scope.toPromociones = function(){
+        $location.url("/promociones");
+    }
+    $scope.toRoom = function(){
+        $location.url("/roomserv");
+    }
 }]);
 
 myApp.controller('clientesCtrl', ['$scope', function($scope) {
