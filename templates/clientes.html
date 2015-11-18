@@ -1,1 +1,59 @@
-{{message}}
+<div class="panel panel-primary">
+    <div class="panel-heading" style="font-size:large">
+        Lista de Clientes
+    </div>
+
+    <!-- FORMULARIO PARA GREGAR CLIENTES -->
+
+    <form ng-submit="agregarSubmit()" ng-show="agregarFormShow" style="color:white;">
+        <input type="text" ng-model="nombreCliente" placeholder="Nombre del Cliente" />
+        <input type="text" ng-model="apellidoCliente" placeholder="Apellido del Cliente" />
+        <input type="text" ng-model="cedulaCliente" placeholder="Cedula del Cliente" />
+        <input type="text" ng-model="habitacionCliente" placeholder="Habitación del Cliente" />
+        <input type="text" ng-model="codigoCliente" placeholder="Código del Cliente" />
+        <input type="submit" value="Agregar Cliente" class="btn btn-default btn-success" />
+    </form>
+	
+	<!-- FORMULARIO PARA EDITAR CLIENTES -->
+    <form ng-submit="editFormSubmit()" ng-show="editFormShow" style="color:white;">
+        <input type="text" ng-model="nombreCliente" placeholder="Nombre del Cliente" />
+        <input type="text" ng-model="apellidoCliente" placeholder="Apellido del Cliente" />
+        <input type="text" ng-model="cedulaCliente" placeholder="Cedula del Cliente" />
+        <input type="text" ng-model="habitacionCliente" placeholder="Habitación del Cliente" />
+        <input type="text" ng-model="codigoCliente" placeholder="Código del Cliente" />
+        <input type="submit" value="Editar cliente" class="btn btn-default btn-warning" />
+    </form>
+
+	<!---TABLA PARA PRESENTAR LOS CLIENTES EXISTENTES -->
+    <div class="panel panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Nombres</td>
+                    <td>Apellidos</td>
+                    <td>Cedula</td>
+                    <td>Haitación</td>
+                    <td>Código</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="cliente in clientes">
+                    <td>{{ cliente.nombreCliente}}</td>
+                    <td>{{ cliente.apellidoCliente}}</td>
+                    <td>{{ cliente.cedulaCliente}}</td>
+                    <td>{{ cliente.habitacionCliente}}</td>
+                    <td>{{ cliente.codigoCliente}}</td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="verCliente(cliente)" >Editar</button>&nbsp;
+                        <button class="btn btn-danger" ng-click="eliminar(cliente)" >Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- BOTONES PARA MOSTRAR O CULTAR FORMULARIOS -->
+        <button class="btn btn-success" ng-click="verForm()" ng-hide="agregarFormShow">+</button>
+        <button class="btn btn-warning" ng-click="ocultarForm()" ng-show="agregarFormShow">-</button>
+    </div>
+</div>

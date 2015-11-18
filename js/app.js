@@ -8,32 +8,32 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
     when('/home', {
       templateUrl: 'templates/home.html', 
       controller: 'homeCtrl'
-   }).
-   when('/clientes', {
+  }).
+    when('/clientes', {
       templateUrl: 'templates/clientes.html', 
       controller: 'clientesCtrl'
-   }).
-   when('/productos', {
+  }).
+    when('/productos', {
       templateUrl: 'templates/productos.html', 
       controller: 'productosCtrl'
-   }).
-   when('/promociones', {
+  }).
+    when('/promociones', {
       templateUrl: 'templates/promociones.html', 
       controller: 'promocionesCtrl'
-   }).
-   when('/roomserv', {
+  }).
+    when('/roomserv', {
       templateUrl: 'templates/roomservice.html', 
       controller: 'roomservCtrl'
-   }).   
-   otherwise({
+  }).   
+    otherwise({
       redirectTo: '/home'
-   });
+  });
     
 }]);
 
 // CONTROLADOR PARA LA VISTA HOME
 myApp.controller('homeCtrl',['$scope', '$location',function($scope, $location) {
-    
+
     // FUNCIONES PARA REDIRIGIR A LAS VISTAS DESDE LOS BOTONES DEL MENU HOME
     $scope.toClientes = function(){
         $location.url("/clientes");
@@ -49,8 +49,71 @@ myApp.controller('homeCtrl',['$scope', '$location',function($scope, $location) {
     }
 }]);
 
-myApp.controller('clientesCtrl', ['$scope', function($scope) {
-    $scope.message = 'Hola, Mundo!';
+//CONTROLADOR PARA LA VISTA CLIENTES
+myApp.controller('clientesCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
+    //CONEXIÓN A FIREBASE(CLIENTES)
+    var misClientes = new Firebase('https://redesutpl.firebaseio.com/clientes');
+    //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (CLIENTES)
+    $scope.clientes = $firebaseArray(misClientes);
+
+    //FUNCIONES PARA MANEJO DE FORMULARIOS
+    $scope.verForm = function  () {
+        $scope.agregarFormShow = true;
+        $scope.editFormShow = false;
+        limpiarForm();
+    }
+    $scope.ocultarForm = function  () {
+        $scope.agregarFormShow = false;
+    }
+
+    function limpiarForm () {
+        $scope.nombreCliente = '';
+        $scope.apellidoCliente = '';
+        $scope.cedulaCliente = '';
+        $scope.habitacionCliente = '';
+        $scope.codigoCliente = '';
+    }
+    //FUNCIÓN PARA AGREGAR CLIENTE
+    $scope.agregarSubmit = function  () {
+        $scope.clientes.$add({
+            nombreCliente : $scope.nombreCliente,
+            apellidoCliente : $scope.apellidoCliente,
+            cedulaCliente : $scope.cedulaCliente,
+            habitacionCliente : $scope.habitacionCliente,
+            codigoCliente : $scope.codigoCliente
+        });
+        limpiarForm();
+    }
+
+    //FUNCIÓN PARA COPIAR DATOS DEL CLIENTE AL FORMULARIO DE EDICIÓN
+    $scope.verCliente = function  (cliente) {
+        $scope.editFormShow = true;
+        $scope.agregarFormShow = false;
+        $scope.nombreCliente = cliente.nombreCliente;
+        $scope.apellidoCliente = cliente.apellidoCliente;
+        $scope.cedulaCliente = cliente.cedulaCliente;
+        $scope.habitacionCliente = cliente.habitacionCliente;
+        $scope.codigoCliente = cliente.codigoCliente;
+        $scope.id = cliente.$id;
+    }
+    //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
+    $scope.editFormSubmit = function  () {
+        var id = $scope.id;
+        var record = $scope.clientes.$getRecord(id);
+
+        record.nombreCliente = $scope.nombreCliente;
+        record.apellidoCliente = $scope.apellidoCliente;
+        record.cedulaCliente = $scope.cedulaCliente;
+        record.habitacionCliente = $scope.habitacionCliente;
+        record.codigoCliente  = $scope.codigoCliente ;
+
+        $scope.clientes.$save(record);
+        limpiarForm();
+    }
+    //FUNCIÓN PARA ELIMINAR CLIENTE DE LA BD 
+    $scope.eliminarCliente = function  (cliente) {
+        $scope.clientes.$remove(cliente);
+    }
 }]);
 
 
