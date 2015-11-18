@@ -2,6 +2,7 @@
 // CREACION DEL MODULO
 var myApp = angular.module('myApp', ['firebase', 'ngRoute']);
 
+
 // CONFIGURACIÓN DE LAS RUTAS PARA REDIRIGIR A LAS VISTAS
 myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -126,11 +127,16 @@ myApp.controller('roomservCtrl', ['$scope', function($scope) {
     $scope.message = 'Hola, Mundo!';
 }]);
 
+//CONTROLADOR PARA LA VISTA DE PRODUCTOS
 myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
+    
+    //CONEXIÓN A FIREBASE(PRODUCTOS)
     var misProductos = new Firebase('https://redesutpl.firebaseio.com/productos');
-
+    
+    //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PRODUCTOS)
     $scope.productos = $firebaseArray(misProductos);
-
+    
+    //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
         $scope.agregarFormShow = true;
         $scope.editFormShow = false;
@@ -146,19 +152,23 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         $scope.descripcion = '';
         $scope.disponibles = '';
         $scope.precio = '';
+        $scope.imagen = '';
     }
-
+    
+    //FUNCIÓN PARA AGREGAR PRODUCTO
     $scope.agregarSubmit = function  () {
         $scope.productos.$add({
             nombreProducto: $scope.nombreProducto,
             codigoProducto: $scope.codigoProducto,
             descripcion: $scope.descripcion,
             disponibles: $scope.disponibles,
-            precio: $scope.precio
+            precio: $scope.precio,
+            imagen: 'file'
         });
         limpiarForm();
     }
-
+    
+    //FUNCIÓN PARA COPIAR DATOS DEL PRODUCTO AL FORMULARIO DE EDICIÓN
     $scope.verProducto = function  (producto) {
         $scope.editFormShow = true;
         $scope.agregarFormShow = false;
@@ -166,10 +176,11 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         $scope.codigoProducto = producto.codigoProducto;
         $scope.descripcion = producto.descripcion;
         $scope.disponibles = producto.disponibles;
-        $scope.precio = producto.precio;
+        $scope.imagen = producto.imagen;
         $scope.id = producto.$id;
     }
-
+    
+    //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
     $scope.editFormSubmit = function  () {
         var id = $scope.id;
         var record = $scope.productos.$getRecord(id);
@@ -179,11 +190,12 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         record.descripcion = $scope.descripcion;
         record.disponibles = $scope.disponibles;
         record.precio = $scope.precio;
+        record.imagen = $scope.imagen;
 
         $scope.productos.$save(record);
         limpiarForm();
     }
-
+    //FUNCIÓN PARA ELIMINAR PRODUCTO DE LA BD 
     $scope.eliminarProducto = function  (producto) {
         $scope.productos.$remove(producto);
     }
