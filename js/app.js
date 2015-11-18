@@ -118,9 +118,75 @@ myApp.controller('clientesCtrl', ['$scope', '$firebaseArray', function($scope, $
 }]);
 
 
+//CONTROLADOR PARA LA VISTA PROMOCIONES
+myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
+    //CONEXIÓN A FIREBASE(PROMOCIONES)
+    var misPromociones = new Firebase('https://redesutpl.firebaseio.com/promociones');
+    //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (promociones)
+    $scope.promociones = $firebaseArray(misPromociones);
 
-myApp.controller('promocionesCtrl', ['$scope', function($scope) {
-    $scope.message = 'Hola, Mundo!';
+    //FUNCIONES PARA MANEJO DE FORMULARIOS
+    $scope.verForm = function  () {
+        $scope.agregarFormShow = true;
+        $scope.editFormShow = false;
+        limpiarForm();
+    }
+    $scope.ocultarForm = function  () {
+        $scope.agregarFormShow = false;
+    }
+
+    function limpiarForm () {
+        $scope.tituloOferta = '';
+        $scope.subTitulo = '';
+        $scope.descripcion = '';
+        $scope.tope = '';
+        $scope.precio = '';
+        $scope.imagen = '';
+    }
+    //FUNCIÓN PARA AGREGAR PROMOCION
+    $scope.agregarSubmit = function  () {
+        $scope.promociones.$add({
+            tituloOferta: $scope.tituloOferta,
+            subTitulo: $scope.subTitulo,
+            descripcion: $scope.descripcion,
+            tope: $scope.tope,
+            precio: $scope.precio,
+            imagen: 'img'
+        });
+        limpiarForm();
+    }
+
+    //FUNCIÓN PARA COPIAR DATOS DE LA promocion AL FORMULARIO DE EDICIÓN
+    $scope.verPromocion = function  (promocion) {
+        $scope.editFormShow = true;
+        $scope.agregarFormShow = false;
+        $scope.tituloOferta = promocion.tituloOferta;
+        $scope.subTitulo = promocion.subTitulo;
+        $scope.descripcion = promocion.descripcion;
+        $scope.tope = promocion.tope;
+        $scope.precio = promocion.precio;
+        $scope.imagen = promocion.imagen;
+        $scope.id = promocion.$id;
+    }
+    //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
+    $scope.editFormSubmit = function  () {
+        var id = $scope.id;
+        var record = $scope.promociones.$getRecord(id);
+
+        record.tituloOferta = $scope.tituloOferta;
+        record.subTitulo = $scope.subTitulo;
+        record.descripcion = $scope.descripcion;
+        record.tope = $scope.tope;
+        record.precio  = $scope.precio ;
+        record.imagen  = $scope.imagen ;
+
+        $scope.promociones.$save(record);
+        limpiarForm();
+    }
+    //FUNCIÓN PARA ELIMINAR PROMOCION DE LA BD 
+    $scope.eliminarPromocion = function  (promocion) {
+        $scope.promociones.$remove(promocion);
+    }
 }]);
 
 myApp.controller('roomservCtrl', ['$scope', function($scope) {
