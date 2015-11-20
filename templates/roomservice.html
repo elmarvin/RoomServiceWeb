@@ -1,0 +1,81 @@
+<div class="panel panel-primary">
+    <div class="panel-heading" style="font-size:large">
+        <i class="fa fa-list"></i>
+        Lista de Pedidos
+    </div>
+
+    <!--FORMULARIO PARA AGREGAR PEDIDOS-->
+    <!--<form ng-submit="agregarSubmit()" ng-show="agregarFormShow" class="form-inline">
+        <input class="form-control" type="text" ng-model="fechaPedido" placeholder="Nombre Producto" />
+        <input class="form-control" type="text" ng-model="horaPedido" placeholder="Código del producto" />
+        <input class="form-control" type="text" ng-model="nombreCliente" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="apellidoCliente" placeholder="disponibles" />
+        <input class="form-control" type="text" ng-model="habitacionCliente" placeholder="precio" />
+        <input class="form-control" type="text" ng-model="codigoProducto" placeholder="precio" />
+        <input class="form-control" type="text" ng-model="nombreProducto" placeholder="precio" />
+        <input class="form-control" type="text" ng-model="cantidad" placeholder="precio" />
+        <input class="form-control" type="text" ng-model="productosPedidos" placeholder="precio" />
+        <input class="form-control" type="text" ng-model="subTotal" placeholder="precio" />
+        <input class="form-control" type="text" ng-model="total" placeholder="precio" />
+        <input type="submit" value="Agregar Pedido" class="btn btn-default btn-success" />
+    </form>-->
+
+    <!--FORMULARIO PARA EDITAR PEDIDOS-->
+    <form ng-submit="editFormSubmit()" ng-show="editFormShow" class="form-inline">
+        <input class="form-control" type="text" ng-model="fechaPedido" placeholder="Nombre Producto" />
+        <input class="form-control" type="text" ng-model="horaPedido" placeholder="Código del producto" />
+        <input class="form-control" type="text" ng-model="nombreCliente" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="apellidoCliente" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="habitacionCliente" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="codigoProducto" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="nombreProducto" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="cantidad" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="productosPedidos" placeholder="descripcion" />
+        <input class="form-control" type="text" ng-model="subTotal" placeholder="disponibles" />
+        <input class="form-control" type="text" ng-model="total" placeholder="precio" />
+        <input type="submit" value="Editar Pedido" class="btn btn-default btn-warning" />
+    </form>
+   
+    <div class="panel panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Fecha</td>
+                    <td>Hora</td>
+                    <td>Nombres</td>
+                    <td>Apellidos</td>
+                    <td>Habitación</td>
+                    <td>Cod. Producto</td>
+                    <td>Producto</td>
+                    <td>Cantidad</td>
+                    <td>Composición Pedido</td>
+                    <td>Subtotal</td>
+                    <td>Total</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pedido in pedidos | orderBy:['-fechaPedido' , '-horaPedido']">
+                    <td>{{ pedido.fechaPedido}}</td>
+                    <td>{{ pedido.horaPedido}}</td>
+                    <td>{{ pedido.nombreCliente}}</td>
+                    <td>{{ pedido.apellidoCliente}}</td>
+                    <td>{{ pedido.habitacionCliente}}</td>
+                    <td>{{ pedido.codigoProducto}}</td>
+                    <td>{{ pedido.nombreProducto}}</td>
+                    <td>{{ pedido.cantidad}}</td>
+                    <td>{{ pedido.productosPedidos}}</td>
+                    <td>{{ pedido.subTotal | currency}}</td>
+                    <td>{{ pedido.total | currency }}</td>
+                    
+                    <td>
+                        <button class="btn btn-primary" ng-click="verPedido(pedido)" >Editar</button>
+                        <button class="btn btn-danger" ng-click="eliminarPedido(pedido)" >Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--<button class="btn btn-success" ng-click="verForm()" ng-hide="agregarFormShow">+</button>
+        <button class="btn btn-warning" ng-click="ocultarForm()" ng-show="agregarFormShow">-</button>-->
+    </div>
+</div>

@@ -11,7 +11,7 @@
         <input class="form-control" type="text" ng-model="descripcion" placeholder="descripcion" />
         <input class="form-control" type="text" ng-model="disponibles" placeholder="disponibles" />
         <input class="form-control" type="text" ng-model="precio" placeholder="precio" />
-        <input class="form-control" type="file" ng-model="imagen" multiple="false"  placeholder="Imagen Producto" />
+        <input class="form-control" type="text" ng-model="imagen" placeholder="Imagen Producto" />
         <input type="submit" value="Agregar Producto" class="btn btn-default btn-success" />
     </form>
 
@@ -22,7 +22,7 @@
         <input class="form-control" type="text" ng-model="descripcion" placeholder="descripcion" />
         <input class="form-control" type="text" ng-model="disponibles" placeholder="disponibles" />
         <input class="form-control" type="text" ng-model="precio" placeholder="precio" />
-        <input class="form-control" type="file" file-model="imagen" multiple="false"  placeholder="Imagen Producto" />
+        <input class="form-control" type="text" ng-model="imagen"  placeholder="Imagen Producto" />
         <input type="submit" value="Editar Producto" class="btn btn-default btn-warning" />
     </form>
    
@@ -46,7 +46,7 @@
                     <td>{{ producto.descripcion}}</td>
                     <td>{{ producto.disponibles}}</td>
                     <td>{{ producto.precio | currency }}</td>
-                    <td><img src="" alt="">{{producto.imagen}}</td>
+                    <td><img src="{{producto.imagen}}" style="height: 50px;">
                     <td>
                         <button class="btn btn-primary" ng-click="verProducto(producto)" >Editar</button>&nbsp;
                         <button class="btn btn-danger" ng-click="eliminarProducto(producto)" >Eliminar</button>

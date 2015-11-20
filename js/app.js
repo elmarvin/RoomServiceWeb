@@ -137,7 +137,6 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
 
     function limpiarForm () {
         $scope.tituloOferta = '';
-        $scope.subTitulo = '';
         $scope.descripcion = '';
         $scope.tope = '';
         $scope.precio = '';
@@ -147,11 +146,10 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
     $scope.agregarSubmit = function  () {
         $scope.promociones.$add({
             tituloOferta: $scope.tituloOferta,
-            subTitulo: $scope.subTitulo,
             descripcion: $scope.descripcion,
             tope: $scope.tope,
             precio: $scope.precio,
-            imagen: 'img'
+            imagen: $scope.imagen
         });
         limpiarForm();
     }
@@ -161,7 +159,6 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
         $scope.editFormShow = true;
         $scope.agregarFormShow = false;
         $scope.tituloOferta = promocion.tituloOferta;
-        $scope.subTitulo = promocion.subTitulo;
         $scope.descripcion = promocion.descripcion;
         $scope.tope = promocion.tope;
         $scope.precio = promocion.precio;
@@ -174,7 +171,6 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
         var record = $scope.promociones.$getRecord(id);
 
         record.tituloOferta = $scope.tituloOferta;
-        record.subTitulo = $scope.subTitulo;
         record.descripcion = $scope.descripcion;
         record.tope = $scope.tope;
         record.precio  = $scope.precio ;
@@ -189,8 +185,99 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
     }
 }]);
 
-myApp.controller('roomservCtrl', ['$scope', function($scope) {
-    $scope.message = 'Hola, Mundo!';
+//CONTROLADOR PARA LA VISTA DE ROOMSERVICE
+myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
+    
+    //CONEXIÓN A FIREBASE(PEDIDOS)
+    var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos');
+    
+    //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PEDIDOS)
+    $scope.pedidos = $firebaseArray(misPedidos);
+    
+    //FUNCIONES PARA MANEJO DE FORMULARIOS
+    $scope.verForm = function  () {
+        $scope.agregarFormShow = true;
+        $scope.editFormShow = false;
+        limpiarForm();
+    }
+    $scope.ocultarForm = function  () {
+        $scope.agregarFormShow = false;
+    }
+
+    function limpiarForm () {
+        $scope.fechaPedido ='';
+        $scope.horaPedido = '';
+        $scope.nombreCliente = '';
+        $scope.apellidoCliente = '';
+        $scope.habitacionCliente = '';
+        $scope.codigoProducto = '';
+        $scope.nombreProducto = '';
+        $scope.cantidad = '';
+        $scope.productosPedidos = '';
+        $scope.subTotal = '';
+        $scope.total = '';
+    }
+    
+    //FUNCIÓN PARA AGREGAR PEDIDO
+    $scope.agregarSubmit = function  () {
+        $scope.pedidos.$add({
+            fechaPedido : $scope.pedido.fechaPedido,
+            horaPedido : $scope.pedido.horaPedido,
+            nombreCliente : $scope.pedido.nombreCliente,
+            apellidoCliente : $scope.pedido.apellidoCliente,
+            habitacionCliente : $scope.pedido.habitacionCliente,
+            codigoProducto : $scope.pedido.codigoProducto,
+            nombreProducto : $scope.pedido.nombreProducto,
+            cantidad : $scope.pedido.cantidad,
+            productosPedidos : $scope.pedido.productosPedidos,
+            subTotal :$scope.pedido.subTotal
+        });
+        limpiarForm();
+    }
+    
+    //FUNCIÓN PARA COPIAR DATOS DEL PEDIDO AL FORMULARIO DE EDICIÓN
+    $scope.verPedido = function  (pedido) {
+        $scope.editFormShow = true;
+        $scope.agregarFormShow = false;
+        $scope.fechaPedido = pedido.fechaPedido,
+        $scope.horaPedido = pedido.horaPedido,
+        $scope.nombreCliente = pedido.nombreCliente,
+        $scope.apellidoCliente = pedido.apellidoCliente,
+        $scope.habitacionCliente = pedido.habitacionCliente,
+        $scope.codigoProducto = pedido.codigoProducto,
+        $scope.nombreProducto = pedido.nombreProducto,
+        $scope.cantidad = pedido.cantidad,
+        $scope.productosPedidos = pedido.productosPedidos,
+        $scope.subTotal = pedido.subTotal,
+        $scope.total = pedido.total,
+        $scope.id = pedido.$id;
+    }
+    
+    //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
+    $scope.editFormSubmit = function  () {
+        var id = $scope.id;
+        var record = $scope.pedidos.$getRecord(id);
+
+        record.fechaPedido =  $scope.fechaPedido;
+        record.horaPedido =  $scope.horaPedido;
+        record.nombreCliente =  $scope.nombreCliente;
+        record.apellidoCliente =  $scope.apellidoCliente;
+        record.habitacionCliente =  $scope.habitacionCliente;
+        record.codigoProducto =  $scope.codigoProducto;
+        record.nombreProducto =  $scope.nombreProducto;
+        record.cantidad =  $scope.cantidad;
+        record.productosPedidos =  $scope.productosPedidos;
+        record.subTotal = $scope.subTotal;
+        record.total = $scope.total;
+
+        $scope.pedidos.$save(record);
+        limpiarForm();
+    }
+    //FUNCIÓN PARA ELIMINAR PEDIDOS DE LA BD 
+    $scope.eliminarPedido = function  (pedido) {
+        $scope.pedidos.$remove(pedido);
+    }
+
 }]);
 
 //CONTROLADOR PARA LA VISTA DE PRODUCTOS
@@ -229,7 +316,7 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
             descripcion: $scope.descripcion,
             disponibles: $scope.disponibles,
             precio: $scope.precio,
-            imagen: 'file'
+            imagen: $scope.imagen
         });
         limpiarForm();
     }
@@ -242,6 +329,7 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         $scope.codigoProducto = producto.codigoProducto;
         $scope.descripcion = producto.descripcion;
         $scope.disponibles = producto.disponibles;
+        $scope.precio = producto.precio;
         $scope.imagen = producto.imagen;
         $scope.id = producto.$id;
     }

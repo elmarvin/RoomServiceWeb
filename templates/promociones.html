@@ -8,23 +8,21 @@
 
 	<form ng-submit="agregarSubmit()" ng-show="agregarFormShow" class="form-inline">
 		<input class="form-control" type="text" ng-model="tituloOferta" placeholder="Titulo de la oferta" />
-        <input class="form-control" type="text" ng-model="subTitulo" placeholder="Subtitulo de la oferta" />
         <input class="form-control" type="text" ng-model="descripcion" placeholder="Descripcion de la oferta" />
         <input class="form-control" type="text" ng-model="tope" placeholder="Fecha tope" />
         <input class="form-control" type="text" ng-model="precio" placeholder="precio" />
-        <input class="form-control" type="file" ng-model="imagen" multiple="false"  placeholder="Imagen Producto" />
+        <input class="form-control" type="text" ng-model="imagen"  placeholder="Imagen Producto" />
 		<input type="submit" value="Agregar Promoción" class="btn btn-default btn-success" />
 	</form>
 	
 	<!-- FORMULARIO PARA EDITAR PROMOCIONES -->
 	<form ng-submit="editFormSubmit()" ng-show="editFormShow" class="form-inline">
 		<input class="form-control" type="text" ng-model="tituloOferta" placeholder="Titulo de la oferta" />
-        <input class="form-control" type="text" ng-model="subTitulo" placeholder="Subtitulo de la oferta" />
         <input class="form-control" type="text" ng-model="descripcion" placeholder="Descripcion de la oferta" />
         <input class="form-control" type="text" ng-model="tope" placeholder="Fecha tope" />
         <input class="form-control" type="text" ng-model="precio" placeholder="precio" />
-        <input class="form-control" type="file" ng-model="imagen" multiple="false"  placeholder="Imagen Producto" />
-		<input type="submit" value="Editar cliente" class="btn btn-default btn-warning" />
+        <input class="form-control" type="text" ng-model="imagen" placeholder="Imagen Producto" />
+		<input type="submit" value="Editar promoción" class="btn btn-default btn-warning" />
 	</form>
 
 	<!---TABLA PARA PRESENTAR LAS PROMOCIONES EXISTENTES -->
@@ -39,7 +37,6 @@
 			<thead>
 				<tr>
 					<td>Titulo</td>
-					<td>Subtitulo</td>
 					<td>Descripción</td>
 					<td>Fecha tope</td>
 					<td>Precio</td>
@@ -50,7 +47,6 @@
 			<tbody>
 				<tr ng-repeat="promocion in promociones|filter:buscador">
 					<td>{{ promocion.tituloOferta}}</td>
-					<td>{{ promocion.subTitulo}}</td>
 					<td>{{ promocion.descripcion}}</td>
 					<td>{{ promocion.tope}}</td>
 					<td>{{ promocion.precio}}</td>
