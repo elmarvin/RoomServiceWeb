@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
 	<div class="panel-heading" style="font-size:large">
-		<i class="fa fa-users"></i> 
+		<i class="fa fa-users"></i>
 		Lista de Clientes
 	</div>
 
@@ -14,7 +14,7 @@
 		<input type="text" ng-model="codigoCliente" placeholder="Código del Cliente" />
 		<input type="submit" value="Agregar Cliente" class="btn btn-default btn-success" />
 	</form>
-	
+
 	<!-- FORMULARIO PARA EDITAR CLIENTES -->
 	<form ng-submit="editFormSubmit()" ng-show="editFormShow" style="color:white;">
 		<input type="text" ng-model="nombreCliente" placeholder="Nombre del Cliente" />
@@ -29,7 +29,7 @@
 	<div class="panel panel-body">
 		<div class="large-12 columns">
 			<label>
-				<i class="fa fa-search"></i> 
+				<i class="fa fa-search"></i>
 				Filtra tu búsqueda: </label>
 			<input type="search" ng-model="buscador" />
 		</div>
@@ -46,14 +46,15 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="cliente in clientes|filter:buscador">
-					<td>{{ cliente.nombreCliente}}</td>
-					<td>{{ cliente.apellidoCliente}}</td>
-					<td>{{ cliente.cedulaCliente}}</td>
-					<td>{{ cliente.habitacionCliente}}</td>
-					<td>{{ cliente.codigoCliente}}</td>
+					<td>{{ cliente.nombres}}</td>
+					<td>{{ cliente.apellidos}}</td>
+					<td>{{ cliente.cedula}}</td>
+					<td>{{ cliente.habitacion}}</td>
+					<td>{{ cliente.uid}}</td>
 					<td>
 						<button class="btn btn-primary" ng-click="verCliente(cliente)" >Editar</button>&nbsp;
 						<button class="btn btn-danger" ng-click="eliminar(cliente)" >Eliminar</button>
+						<button class="btn btn-primary" ng-click="verRoomService(cliente)" >Room Service</button>
 					</td>
 				</tr>
 			</tbody>

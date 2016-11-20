@@ -7,29 +7,29 @@ var myApp = angular.module('myApp', ['firebase', 'ngRoute']);
 myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider) {
     $routeProvider.
     when('/home', {
-      templateUrl: 'templates/home.html', 
+      templateUrl: 'templates/home.html',
       controller: 'homeCtrl'
   }).
     when('/clientes', {
-      templateUrl: 'templates/clientes.html', 
+      templateUrl: 'templates/clientes.html',
       controller: 'clientesCtrl'
   }).
     when('/productos', {
-      templateUrl: 'templates/productos.html', 
+      templateUrl: 'templates/productos.html',
       controller: 'productosCtrl'
   }).
     when('/promociones', {
-      templateUrl: 'templates/promociones.html', 
+      templateUrl: 'templates/promociones.html',
       controller: 'promocionesCtrl'
   }).
     when('/roomserv', {
-      templateUrl: 'templates/roomservice.html', 
+      templateUrl: 'templates/roomservice.html',
       controller: 'roomservCtrl'
-  }).   
+  }).
     otherwise({
       redirectTo: '/home'
   });
-    
+
 }]);
 
 // CONTROLADOR PARA LA VISTA HOME
@@ -111,12 +111,12 @@ myApp.controller('clientesCtrl', ['$scope', '$firebaseArray', function($scope, $
         $scope.clientes.$save(record);
         limpiarForm();
     }
-    //FUNCIÓN PARA ELIMINAR CLIENTE DE LA BD 
+    //FUNCIÓN PARA ELIMINAR CLIENTE DE LA BD
     $scope.eliminarCliente = function  (cliente) {
         $scope.clientes.$remove(cliente);
     }
 }]);
-
+// Fin Clientes
 
 //CONTROLADOR PARA LA VISTA PROMOCIONES
 myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
@@ -179,7 +179,7 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
         $scope.promociones.$save(record);
         limpiarForm();
     }
-    //FUNCIÓN PARA ELIMINAR PROMOCION DE LA BD 
+    //FUNCIÓN PARA ELIMINAR PROMOCION DE LA BD
     $scope.eliminarPromocion = function  (promocion) {
         $scope.promociones.$remove(promocion);
     }
@@ -187,13 +187,13 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
 
 //CONTROLADOR PARA LA VISTA DE ROOMSERVICE
 myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
-    
+
     //CONEXIÓN A FIREBASE(PEDIDOS)
     var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos');
-    
+
     //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PEDIDOS)
     $scope.pedidos = $firebaseArray(misPedidos);
-    
+
     //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
         $scope.agregarFormShow = true;
@@ -217,7 +217,7 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
         $scope.subTotal = '';
         $scope.total = '';
     }
-    
+
     //FUNCIÓN PARA AGREGAR PEDIDO
     $scope.agregarSubmit = function  () {
         $scope.pedidos.$add({
@@ -234,7 +234,7 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
         });
         limpiarForm();
     }
-    
+
     //FUNCIÓN PARA COPIAR DATOS DEL PEDIDO AL FORMULARIO DE EDICIÓN
     $scope.verPedido = function  (pedido) {
         $scope.editFormShow = true;
@@ -252,7 +252,7 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
         $scope.total = pedido.total,
         $scope.id = pedido.$id;
     }
-    
+
     //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
     $scope.editFormSubmit = function  () {
         var id = $scope.id;
@@ -273,7 +273,7 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
         $scope.pedidos.$save(record);
         limpiarForm();
     }
-    //FUNCIÓN PARA ELIMINAR PEDIDOS DE LA BD 
+    //FUNCIÓN PARA ELIMINAR PEDIDOS DE LA BD
     $scope.eliminarPedido = function  (pedido) {
         $scope.pedidos.$remove(pedido);
     }
@@ -282,13 +282,13 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
 
 //CONTROLADOR PARA LA VISTA DE PRODUCTOS
 myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
-    
     //CONEXIÓN A FIREBASE(PRODUCTOS)
-    var misProductos = new Firebase('https://redesutpl.firebaseio.com/productos');
-    
+    var misProductos = new Firebase('https://redesutpl.firebaseio.com/productos')
     //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PRODUCTOS)
+    var query = misProductos.orderByChild("disponibles").equalTo(4);
+
     $scope.productos = $firebaseArray(misProductos);
-    
+
     //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
         $scope.agregarFormShow = true;
@@ -307,7 +307,7 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         $scope.precio = '';
         $scope.imagen = '';
     }
-    
+
     //FUNCIÓN PARA AGREGAR PRODUCTO
     $scope.agregarSubmit = function  () {
         $scope.productos.$add({
@@ -320,7 +320,7 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         });
         limpiarForm();
     }
-    
+
     //FUNCIÓN PARA COPIAR DATOS DEL PRODUCTO AL FORMULARIO DE EDICIÓN
     $scope.verProducto = function  (producto) {
         $scope.editFormShow = true;
@@ -333,7 +333,7 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         $scope.imagen = producto.imagen;
         $scope.id = producto.$id;
     }
-    
+
     //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
     $scope.editFormSubmit = function  () {
         var id = $scope.id;
@@ -349,7 +349,7 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
         $scope.productos.$save(record);
         limpiarForm();
     }
-    //FUNCIÓN PARA ELIMINAR PRODUCTO DE LA BD 
+    //FUNCIÓN PARA ELIMINAR PRODUCTO DE LA BD
     $scope.eliminarProducto = function  (producto) {
         $scope.productos.$remove(producto);
     }
