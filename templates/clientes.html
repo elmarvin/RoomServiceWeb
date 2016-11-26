@@ -39,8 +39,9 @@
 					<td>Nombres</td>
 					<td>Apellidos</td>
 					<td>Cedula</td>
-					<td>Haitación</td>
-					<td>Código</td>
+					<td>Habitación</td>
+					<td>Estado</td>
+					<td>Codigo</td>
 					<td>Acciones</td>
 				</tr>
 			</thead>
@@ -49,8 +50,9 @@
 					<td>{{ cliente.nombres}}</td>
 					<td>{{ cliente.apellidos}}</td>
 					<td>{{ cliente.cedula}}</td>
-					<td>{{ cliente.habitacion}}</td>
-					<td>{{ cliente.uid}}</td>
+					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">{{ up.habitacion }}</td>
+					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">{{ up.estado }}</td>
+					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">{{ up.uid }}</td>					
 					<td>
 						<button class="btn btn-primary" ng-click="verCliente(cliente)" >Editar</button>&nbsp;
 						<button class="btn btn-danger" ng-click="eliminar(cliente)" >Eliminar</button>

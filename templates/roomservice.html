@@ -2,6 +2,8 @@
     <div class="panel-heading" style="font-size:large">
         <i class="fa fa-list"></i>
         Lista de Pedidos
+        {{ varprueba }}
+        {{ varprueba2 }}
     </div>
 
     <!--FORMULARIO PARA AGREGAR PEDIDOS-->
@@ -35,15 +37,17 @@
         <input class="form-control" type="text" ng-model="total" placeholder="precio" />
         <input type="submit" value="Editar Pedido" class="btn btn-default btn-warning" />
     </form>
-   
+
     <div class="panel panel-body">
+      <form ng-submit="filtro()"  style="color:white;">
+        <input type="text" ng-model="id" placeholder="Nombre del Cliente" />
+        <input type="submit" value="Agregar Cliente" class="btn btn-default btn-success" />
+      </form>
         <table class="table">
             <thead>
                 <tr>
                     <td>Fecha</td>
                     <td>Hora</td>
-                    <td>Nombres</td>
-                    <td>Apellidos</td>
                     <td>Habitación</td>
                     <td>Cod. Producto</td>
                     <td>Producto</td>
@@ -57,9 +61,7 @@
             <tbody>
                 <tr ng-repeat="pedido in pedidos | orderBy:['-fechaPedido' , '-horaPedido']">
                     <td>{{ pedido.fechaPedido}}</td>
-                    <td>{{ pedido.horaPedido}}</td>
-                    <td>{{ pedido.nombreCliente}}</td>
-                    <td>{{ pedido.apellidoCliente}}</td>
+                    <td>{{ pedido.horaPedido}}</td>                                        
                     <td>{{ pedido.habitacionCliente}}</td>
                     <td>{{ pedido.codigoProducto}}</td>
                     <td>{{ pedido.nombreProducto}}</td>
@@ -67,7 +69,7 @@
                     <td>{{ pedido.productosPedidos}}</td>
                     <td>{{ pedido.subTotal | currency}}</td>
                     <td>{{ pedido.total | currency }}</td>
-                    
+
                     <td>
                         <button class="btn btn-primary" ng-click="verPedido(pedido)" >Editar</button>
                         <button class="btn btn-danger" ng-click="eliminarPedido(pedido)" >Eliminar</button>

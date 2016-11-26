@@ -189,11 +189,11 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
 myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
 
     //CONEXIÓN A FIREBASE(PEDIDOS)
-    var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos');
+    var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos/13258');
+    //var query = misPedidos.orderByChild("disponibles").equalTo(4);
+    $scope.pedidos  = $firebaseArray(misPedidos);
 
     //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PEDIDOS)
-    $scope.pedidos = $firebaseArray(misPedidos);
-
     //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
         $scope.agregarFormShow = true;
@@ -202,6 +202,13 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
     }
     $scope.ocultarForm = function  () {
         $scope.agregarFormShow = false;
+    }
+
+    $scope.filtro = function (){
+      var newmisPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos/'+$scope.id);
+      $scope.pedidos  = $firebaseArray(newmisPedidos);
+      $scope.varprueba = "hola";
+      $scope.varprueba2 = $scope.id;
     }
 
     function limpiarForm () {
@@ -285,10 +292,9 @@ myApp.controller('productosCtrl', ['$scope', '$firebaseArray', function($scope, 
     //CONEXIÓN A FIREBASE(PRODUCTOS)
     var misProductos = new Firebase('https://redesutpl.firebaseio.com/productos')
     //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PRODUCTOS)
-    var query = misProductos.orderByChild("disponibles").equalTo(4);
+    var query = misProductos.orderByChild("disponibles").equalTo(2);
 
     $scope.productos = $firebaseArray(misProductos);
-
     //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
         $scope.agregarFormShow = true;
