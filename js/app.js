@@ -26,6 +26,11 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
       templateUrl: 'templates/roomservice.html',
       controller: 'roomservCtrl'
   }).
+  when('/roomserv/:codigo', {
+    templateUrl: 'templates/roomservice.html',
+    controller: 'roomservCtrl'
+  })
+  .
     otherwise({
       redirectTo: '/home'
   });
@@ -51,11 +56,18 @@ myApp.controller('homeCtrl',['$scope', '$location',function($scope, $location) {
 }]);
 
 //CONTROLADOR PARA LA VISTA CLIENTES
-myApp.controller('clientesCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
+myApp.controller('clientesCtrl', ['$scope', '$firebaseArray', '$location', function($scope, $firebaseArray, $location) {
     //CONEXIÓN A FIREBASE(CLIENTES)
     var misClientes = new Firebase('https://redesutpl.firebaseio.com/clientes');
     //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (CLIENTES)
     $scope.clientes = $firebaseArray(misClientes);
+    $scope.auxiliar2 = $scope.clientes2;
+    //$scope.auxiliar22 = JSON.stringify($scope.auxiliar);
+
+    $scope.verRoomService = function(cliente) {
+      $location.url('/roomserv/' + cliente);
+    };
+
 
     //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
@@ -75,41 +87,172 @@ myApp.controller('clientesCtrl', ['$scope', '$firebaseArray', function($scope, $
         $scope.codigoCliente = '';
     }
     //FUNCIÓN PARA AGREGAR CLIENTE
+    $scope.flag = true;
+    $scope.flagh = true;
+    $scope.cedulaClienten ="si disponible";
+    $scope.habitacionClienten ="si disponible";
     $scope.agregarSubmit = function  () {
-        $scope.clientes.$add({
-            nombreCliente : $scope.nombreCliente,
-            apellidoCliente : $scope.apellidoCliente,
-            cedulaCliente : $scope.cedulaCliente,
-            habitacionCliente : $scope.habitacionCliente,
-            codigoCliente : $scope.codigoCliente
+        $scope.clientes.forEach(function(item, index) {
+          if (item.cedula == $scope.cedulaCliente) {
+            $scope.flag = false;
+            $scope.buscador = $scope.cedulaCliente;
+          }
+
+          item.uidspedidos.forEach(function (it, idx){
+            if (it.estado == "activo") {
+              if (it.habitacion==$scope.habitacionCliente) {
+                $scope.flagh=false;
+              }
+            }
+          });
+
+        })
+        if ($scope.flag == false) {
+            $scope.cedulaClienten ="Cedula ya Registrada";
+        }else{
+          $scope.cedulaClienten ="";
+          $scope.buscador = "";
+        }
+        if ($scope.flagh == false) {
+            $scope.habitacionClienten ="Habitación Ocupada";
+        }else{
+          $scope.habitacionClienten ="";
+        }
+
+
+
+        if ($scope.flag==true && $scope.flagh==true) {
+
+          var long = parseInt(5);
+          var caracteres = "ABCDEFGHIJKLMNPQRTUVWXYZ123467890";
+          var contrasenia = "";
+          for(i=0; i<long; i++) {
+            contrasenia=contrasenia+caracteres.charAt(Math.floor(Math.random()*33));
+            console.log(contrasenia);
+          }
+
+          misClientes.child($scope.cedulaCliente).set({
+              nombres : $scope.nombreCliente,
+              apellidos : $scope.apellidoCliente,
+              cedula : $scope.cedulaCliente,
+              uidspedidos: [
+                {
+                  estado: "activo",
+                  habitacion: $scope.habitacionCliente,
+                  uid: contrasenia
+                }
+              ]
+          });
+          limpiarForm();
+        }
+        $scope.flag = true;
+        $scope.flagh = true;
+
+    }
+
+    $scope.desactivar = function(cliente) {
+      misClientes.child(cliente.cedulaCliente).set({
+          nombres : cliente.nombres,
+          apellidos : cliente.apellidos,
+          cedula : cliente.cedula,
+          uidspedidos: [
+            {
+              estado: "inactivo",
+              habitacion: "",
+              uid: ""
+            }
+          ]
+      });
+    }
+
+    $scope.activar = function(cliente) {
+
+
+        var long = parseInt(5);
+        var caracteres = "ABCDEFGHIJKLMNPQRTUVWXYZ123467890";
+        var contrasenia = "";
+        for(i=0; i<long; i++) {
+          contrasenia=contrasenia+caracteres.charAt(Math.floor(Math.random()*33));
+          console.log(contrasenia);
+        }
+        misClientes.child(cliente.cedula).set({
+            nombres : cliente.nombres,
+            apellidos : cliente.apellidos,
+            cedula : cliente.cedula,
+            uidspedidos: [
+              {
+                estado: "activo",
+                habitacion: "-",
+                uid: contrasenia
+              }
+            ]
         });
-        limpiarForm();
+
     }
 
     //FUNCIÓN PARA COPIAR DATOS DEL CLIENTE AL FORMULARIO DE EDICIÓN
     $scope.verCliente = function  (cliente) {
         $scope.editFormShow = true;
         $scope.agregarFormShow = false;
-        $scope.nombreCliente = cliente.nombreCliente;
-        $scope.apellidoCliente = cliente.apellidoCliente;
-        $scope.cedulaCliente = cliente.cedulaCliente;
-        $scope.habitacionCliente = cliente.habitacionCliente;
-        $scope.codigoCliente = cliente.codigoCliente;
+        $scope.nombreCliente = cliente.nombres;
+        $scope.apellidoCliente = cliente.apellidos;
+        $scope.cedulaCliente = cliente.cedula;
+        cliente.uidspedidos.forEach(function(it, idx){
+          if (it.estado == "activo") {
+              $scope.habitacionCliente = it.habitacion;
+          }
+        });
+
+
         $scope.id = cliente.$id;
     }
     //FUNCIÓN PARA GUARDAR LOS CAMBIOS DE EDICIÓN
     $scope.editFormSubmit = function  () {
-        var id = $scope.id;
-        var record = $scope.clientes.$getRecord(id);
 
-        record.nombreCliente = $scope.nombreCliente;
-        record.apellidoCliente = $scope.apellidoCliente;
+      $scope.clientes.forEach(function(item, index) {
+        if (item.cedula == $scope.cedulaCliente) {
+          $scope.flag = false;
+          $scope.buscador = $scope.cedulaCliente;
+        }
+
+        item.uidspedidos.forEach(function (it, idx){
+          if (it.estado == "activo") {
+            if (it.habitacion==$scope.habitacionCliente) {
+              $scope.flagh=false;
+            }
+          }
+        });
+
+      })
+      if ($scope.flag == false) {
+          $scope.cedulaClienten ="Cedula ya Registrada";
+      }else{
+        $scope.cedulaClienten ="";
+        $scope.buscador = "";
+      }
+      if ($scope.flagh == false) {
+          $scope.habitacionClienten ="Habitación Ocupada";
+      }else{
+        $scope.habitacionClienten ="";
+      }
+
+      //$scope.flag==true &&
+      if ($scope.flagh==true) {
+        var id = $scope.id;
+        var record = $scope.clientes.$getRecord($scope.cedulaCliente);
+
+        record.nombres = $scope.nombreCliente;
+        record.apellidos = $scope.apellidoCliente;
         record.cedulaCliente = $scope.cedulaCliente;
         record.habitacionCliente = $scope.habitacionCliente;
-        record.codigoCliente  = $scope.codigoCliente ;
+        record.uidspedidos[0].habitacion  = $scope.habitacionCliente;;
 
         $scope.clientes.$save(record);
         limpiarForm();
+      }
+      $scope.flag = true;
+      $scope.flagh = true;
+
     }
     //FUNCIÓN PARA ELIMINAR CLIENTE DE LA BD
     $scope.eliminarCliente = function  (cliente) {
@@ -186,13 +329,41 @@ myApp.controller('promocionesCtrl', ['$scope', '$firebaseArray', function($scope
 }]);
 
 //CONTROLADOR PARA LA VISTA DE ROOMSERVICE
-myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $firebaseArray) {
+myApp.controller('roomservCtrl', ['$scope', '$firebaseArray',"$firebaseObject","$routeParams", function($scope, $firebaseArray, $firebaseObject, $routeParams) {
 
+    if (typeof($routeParams.codigo) == "undefined"){
+      var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos/13258');
+    }else{
+      var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos/'+$routeParams.codigo);
+    }
     //CONEXIÓN A FIREBASE(PEDIDOS)
-    var misPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos/13258');
-    //var query = misPedidos.orderByChild("disponibles").equalTo(4);
-    $scope.pedidos  = $firebaseArray(misPedidos);
 
+    //var query = misPedidos.orderByChild("disponibles").equalTo(4);
+    //var varpruebas = new Array();
+    var pedidoslista  = $firebaseArray(misPedidos);
+    $scope.pedidos = pedidoslista;
+    pedidoslista.$loaded().then(function(x) {
+        pedidoslista.forEach(function(item, index) {
+          $scope.aux = $scope.aux + item.total;
+        })
+    })
+    .catch(function(error) {
+      console.log("Error:", error);
+    });
+    misPedidos.on('child_changed', function(data) {
+      //addCommentElement(postElement, data.key, data.val().text, data.val().author);
+      $scope.varpruebass = data.key;
+    });
+    //$scope.varpruebass = varpruebas;
+    //$scope.pedidos = $scope.pedidoslista.$getRecord("13258");
+
+    //$scope.pedidosl = "hola";
+    //$scope.pedidoslista.forEach(function(element, index){
+    $scope.aux = 0;
+
+
+//
+  //  });
     //ADQUIRIR ARRAY DE DE LA BASE DE DATOS (PEDIDOS)
     //FUNCIONES PARA MANEJO DE FORMULARIOS
     $scope.verForm = function  () {
@@ -206,8 +377,10 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray', function($scope, $
 
     $scope.filtro = function (){
       var newmisPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos/'+$scope.id);
+      //var newmisPedidos = new Firebase('https://redesutpl.firebaseio.com/pedidos');
+
       $scope.pedidos  = $firebaseArray(newmisPedidos);
-      $scope.varprueba = "hola";
+      //$scope.varprueba = $scope.pedidos.$indexFor("13258");
       $scope.varprueba2 = $scope.id;
     }
 

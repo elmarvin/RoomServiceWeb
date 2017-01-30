@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
 	<div class="panel-heading" style="font-size:large">
-		<i class="fa fa-newspaper"></i> 
+		<i class="fa fa-newspaper"></i>
 		Promociones a ofertar en la App Móvil
 	</div>
 
@@ -14,7 +14,7 @@
         <input class="form-control" type="text" ng-model="imagen"  placeholder="Imagen Producto" />
 		<input type="submit" value="Agregar Promoción" class="btn btn-default btn-success" />
 	</form>
-	
+
 	<!-- FORMULARIO PARA EDITAR PROMOCIONES -->
 	<form ng-submit="editFormSubmit()" ng-show="editFormShow" class="form-inline">
 		<input class="form-control" type="text" ng-model="tituloOferta" placeholder="Titulo de la oferta" />
@@ -29,7 +29,7 @@
 	<div class="panel panel-body">
 		<div class="col-md-6">
 			<label>
-				<i class="fa fa-search"></i> 
+				<i class="fa fa-search"></i>
 				Filtra tu búsqueda: </label>
 			<input class="form-control" type="search" ng-model="buscador" />
 		</div>
@@ -50,7 +50,7 @@
 					<td>{{ promocion.descripcion}}</td>
 					<td>{{ promocion.tope}}</td>
 					<td>{{ promocion.precio}}</td>
-					<td>{{ promocion.imagen}}</td>
+					<td><img src="{{ promocion.imagen}}" style="width: 200px"></td>
 					<td>
 						<button class="btn btn-primary" ng-click="verPromocion(promocion)" >Editar</button>
 						<button class="btn btn-danger" ng-click="eliminarPromocion(promocion)" >Eliminar</button>

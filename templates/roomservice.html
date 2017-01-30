@@ -2,7 +2,7 @@
     <div class="panel-heading" style="font-size:large">
         <i class="fa fa-list"></i>
         Lista de Pedidos
-        {{ varprueba }}
+        <!--{{ pedidoslista }}-->
         {{ varprueba2 }}
     </div>
 
@@ -39,9 +39,9 @@
     </form>
 
     <div class="panel panel-body">
-      <form ng-submit="filtro()"  style="color:white;">
+      <form ng-submit="filtro()">
         <input type="text" ng-model="id" placeholder="Nombre del Cliente" />
-        <input type="submit" value="Agregar Cliente" class="btn btn-default btn-success" />
+        <input type="submit" value="Buscar por Código" class="btn btn-default btn-success" />
       </form>
         <table class="table">
             <thead>
@@ -61,7 +61,7 @@
             <tbody>
                 <tr ng-repeat="pedido in pedidos | orderBy:['-fechaPedido' , '-horaPedido']">
                     <td>{{ pedido.fechaPedido}}</td>
-                    <td>{{ pedido.horaPedido}}</td>                                        
+                    <td>{{ pedido.horaPedido}}</td>
                     <td>{{ pedido.habitacionCliente}}</td>
                     <td>{{ pedido.codigoProducto}}</td>
                     <td>{{ pedido.nombreProducto}}</td>
@@ -80,4 +80,5 @@
         <!--<button class="btn btn-success" ng-click="verForm()" ng-hide="agregarFormShow">+</button>
         <button class="btn btn-warning" ng-click="ocultarForm()" ng-show="agregarFormShow">-</button>-->
     </div>
+    {{aux}}
 </div>

@@ -2,26 +2,27 @@
 	<div class="panel-heading" style="font-size:large">
 		<i class="fa fa-users"></i>
 		Lista de Clientes
+		<!--{{flag}} {{flagh}} {{cedulaClienten}} {{habitacionClienten}}-->
 	</div>
 
 	<!-- FORMULARIO PARA GREGAR CLIENTES -->
 
-	<form ng-submit="agregarSubmit()" ng-show="agregarFormShow" style="color:white;">
+	<form ng-submit="agregarSubmit()" ng-show="agregarFormShow" >
 		<input type="text" ng-model="nombreCliente" placeholder="Nombre del Cliente" />
 		<input type="text" ng-model="apellidoCliente" placeholder="Apellido del Cliente" />
 		<input type="text" ng-model="cedulaCliente" placeholder="Cedula del Cliente" />
 		<input type="text" ng-model="habitacionCliente" placeholder="Habitación del Cliente" />
-		<input type="text" ng-model="codigoCliente" placeholder="Código del Cliente" />
+
 		<input type="submit" value="Agregar Cliente" class="btn btn-default btn-success" />
 	</form>
 
 	<!-- FORMULARIO PARA EDITAR CLIENTES -->
-	<form ng-submit="editFormSubmit()" ng-show="editFormShow" style="color:white;">
+	<form ng-submit="editFormSubmit()" ng-show="editFormShow" >
 		<input type="text" ng-model="nombreCliente" placeholder="Nombre del Cliente" />
 		<input type="text" ng-model="apellidoCliente" placeholder="Apellido del Cliente" />
 		<input type="text" ng-model="cedulaCliente" placeholder="Cedula del Cliente" />
 		<input type="text" ng-model="habitacionCliente" placeholder="Habitación del Cliente" />
-		<input type="text" ng-model="codigoCliente" placeholder="Código del Cliente" />
+		<!--<input type="text" ng-model="codigoCliente" placeholder="Código del Cliente" />-->
 		<input type="submit" value="Editar cliente" class="btn btn-default btn-warning" />
 	</form>
 
@@ -52,11 +53,14 @@
 					<td>{{ cliente.cedula}}</td>
 					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">{{ up.habitacion }}</td>
 					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">{{ up.estado }}</td>
-					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">{{ up.uid }}</td>					
+					<td ng-repeat="up in cliente.uidspedidos | filter:{'estado':'activo'}">
+						<button class="btn btn-primary" ng-click="verRoomService(up.uid)">{{ up.uid }}</button>
+					</td>
 					<td>
 						<button class="btn btn-primary" ng-click="verCliente(cliente)" >Editar</button>&nbsp;
-						<button class="btn btn-danger" ng-click="eliminar(cliente)" >Eliminar</button>
-						<button class="btn btn-primary" ng-click="verRoomService(cliente)" >Room Service</button>
+						<button class="btn btn-danger" ng-click="eliminarCliente(cliente)" >Eliminar</button>
+						<button class="btn btn-primary" ng-click="desactivar(cliente)" >Desactivar</button>
+						<button class="btn btn-primary" ng-click="activar(cliente)" >Activar</button>
 					</td>
 				</tr>
 			</tbody>
