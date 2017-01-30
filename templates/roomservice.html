@@ -75,10 +75,13 @@
                         <button class="btn btn-danger" ng-click="eliminarPedido(pedido)" >Eliminar</button>
                     </td>
                 </tr>
+
             </tbody>
+
         </table>
+        <div class="alert alert-success" role="alert">TOTAL A PAGAR: {{aux | currency}}</div>
         <!--<button class="btn btn-success" ng-click="verForm()" ng-hide="agregarFormShow">+</button>
         <button class="btn btn-warning" ng-click="ocultarForm()" ng-show="agregarFormShow">-</button>-->
     </div>
-    {{aux}}
+
 </div>
