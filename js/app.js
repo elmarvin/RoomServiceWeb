@@ -344,7 +344,7 @@ myApp.controller('roomservCtrl', ['$scope', '$firebaseArray',"$firebaseObject","
     $scope.pedidos = pedidoslista;
     pedidoslista.$loaded().then(function(x) {
         pedidoslista.forEach(function(item, index) {
-          $scope.aux = $scope.aux + item.total;
+          $scope.aux = item.total;
         })
     })
     .catch(function(error) {
